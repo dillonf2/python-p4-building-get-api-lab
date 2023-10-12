@@ -58,18 +58,9 @@ def get_bakery(id):
 
 @app.route('/baked_goods/by_price')
 def baked_goods_by_price():
-    baked_goods = BakedGood.query.order_by(BakedGood.price.desc()).all()
-    baked_goods_list = [
-        {
-            'id': good.id,
-            'name': good.name,
-            'price': good.price,
-            'created_at': None,
-        }
-        for good in baked_goods
-    ]
-
-    return jsonify(baked_goods_list), 200
+    guuds= BakedGood.query.order_by(BakedGood.price.desc()).all()
+    new_array=[guud.to_dict() for guud in guuds]
+    return jsonify(new_array), 200
 
 @app.route('/baked_goods/most_expensive')
 def most_expensive_baked_good():
@@ -77,7 +68,7 @@ def most_expensive_baked_good():
 
     if most_expensive_good:
         most_expensive_data = most_expensive_good.to_dict()
-        return jsonify(most_expensive_data), 200
+        return make_response(most_expensive_data, 200)
     else:
         return jsonify({'message': 'No baked goods found.'}), 404
 

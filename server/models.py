@@ -23,9 +23,9 @@ class Bakery(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
-            'baked_goods': [baked_good.to_dict() for baked_good in self.baked_goods]
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat(),
+            'baked_goods': [baked_good.to_dict() for baked_good in self.baked_goods],
         }
 
 class BakedGood(db.Model):
@@ -35,8 +35,8 @@ class BakedGood(db.Model):
     name = db.Column(db.String)
     price = db.Column(db.Integer)
     bakery_id = db.Column(db.Integer, db.ForeignKey('bakeries.id'))
-    created_at = db.Column(db.DateTime)
-    updated_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow())
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow(), onupdate=datetime.utcnow())
 
     bakery = db.relationship('Bakery', back_populates='baked_goods')
 
