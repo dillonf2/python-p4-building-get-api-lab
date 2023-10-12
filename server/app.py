@@ -33,7 +33,7 @@ def bakeries():
 
 @app.route('/bakeries/<int:id>')
 def get_bakery(id):
-    bakery = Bakery.query.get(id)
+    bakery = Bakery.query.filter_by(id=id).first()
 
     if bakery:
         bakery_data = {
